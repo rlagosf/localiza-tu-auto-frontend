@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===================== */
+/* Estilos tipográficos JD */
+/* ===================== */
+@layer base {
+  /* Fuente global en TODO el sitio */
+  html {
+    @apply font-jd antialiased;
+    font-size: 16px;
+  }
+
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Titulares con un poco más de presencia */
+  h1, h2, h3, h4 {
+    @apply tracking-tightish font-semibold;
+  }
+
+  /* “Eyebrow text” (usado en hero: MONITOREO GPS VEHICULAR, etc.) */
+  .eyebrow {
+    @apply text-[0.7rem] uppercase tracking-wideish font-light;
+  }
+}
+
+/* ===================== */
+/* Sponsors Marquee (sin cortes) */
+/* ===================== */
+
+/* contenedor que recorta */
+.sponsor-marquee {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* pista */
+.sponsor-track {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  will-change: transform;
+}
+
+/* dos pistas superpuestas */
+.sponsor-lane {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* velocidad (ajusta aquí) */
+:root {
+  --sponsor-speed: 28s;
+}
+
+/* Animaciones: la B va desfasada para tapar el reinicio de A */
+@keyframes sponsorScrollA {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+@keyframes sponsorScrollB {
+  0%   { transform: translateX(100%); }
+  100% { transform: translateX(0); }
+}
+
+.sponsor-lane--a .sponsor-track {
+  animation: sponsorScrollA var(--sponsor-speed) linear infinite;
+}
+
+.sponsor-lane--b .sponsor-track {
+  animation: sponsorScrollB var(--sponsor-speed) linear infinite;
+}
+
+/* accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  .sponsor-lane--a .sponsor-track,
+  .sponsor-lane--b .sponsor-track {
+    animation: none;
+    transform: none;
+  }
+}
