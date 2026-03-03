@@ -1,162 +1,195 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-scroll";
+import { useMemo, useState, useEffect } from "react";
+import { MapPin, Bell, ShieldCheck, Route } from "lucide-react";
 
-// Cada slide con mensaje
-const SLIDES = [
-  { src: "images/1.png", title: "Monitoreo preciso para tu flota", subtitle: "Visualiza recorridos y tiempo en ruta con un solo vistazo." },
-  { src: "images/2.png", title: "Seguridad para vehículos particulares", subtitle: "Recibe alertas ante movimientos no autorizados." },
-  { src: "images/3.png", title: "Control centralizado", subtitle: "Administra todos tus vehículos desde una sola plataforma." },
-  { src: "images/4.png", title: "Reportes claros y accionables", subtitle: "Toma decisiones con datos, no con suposiciones." },
-  { src: "images/5.png", title: "Cobertura nacional", subtitle: "Instalaciones profesionales y soporte cercano." },
-  { src: "images/6.png", title: "Tecnología confiable", subtitle: "Equipos GPS robustos, pensados para trabajo diario." },
-  { src: "images/7.png", title: "Tu flota, bajo control", subtitle: "Reduce riesgos y mejora la gestión operacional." },
+/**
+ * ✅ Opción 1 (public): array manual de imágenes .webp
+ * Las rutas deben ser /images/... (sin /public).
+ */
+const WEBP_IMAGES = [
+  "/images/alerta-instantanea.webp",
+  "/images/confianza-auto.webp",
+  "/images/historial-rutas.webp",
+  "/images/inmovilizador-motor.webp",
+  "/images/localizacion-tiempo-real.webp",
+];
+
+const FEATURES = [
+  { icon: MapPin, title: "Localización en tiempo real" },
+  { icon: Route, title: "Historial de rutas" },
+  { icon: Bell, title: "Alertas instantáneas" },
+  { icon: ShieldCheck, title: "Inmovilizador de motor" },
 ];
 
 export default function Hero() {
-  const [current, setCurrent] = useState(0);
+  const images = useMemo(() => WEBP_IMAGES, []);
+  const [idx, setIdx] = useState(0);
 
+  const current = images?.length
+    ? images[Math.max(0, Math.min(idx, images.length - 1))]
+    : null;
+
+  // Carrusel automático
   useEffect(() => {
-    const id = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % SLIDES.length);
-    }, 5000);
-    return () => clearInterval(id);
-  }, []);
+    if (!images || images.length <= 1) return;
 
-  const active = SLIDES[current];
+    const reduceMotion =
+      typeof window !== "undefined" &&
+      window.matchMedia &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduceMotion) return;
+
+    const interval = setInterval(() => {
+      setIdx((p) => (p + 1) % images.length);
+    }, 4500); // ajusta velocidad aquí
+
+    return () => clearInterval(interval);
+  }, [images]);
 
   return (
-    <section id="hero" className="pt-24 md:pt-28 w-full px-6 lg:px-12 mb-20">
-      <div
-        className="
-          max-w-[1500px]
-          mx-auto
-          grid lg:grid-cols-2
-          gap-14
-          items-center
-        "
-      >
-        {/* Columna de texto */}
-        <div className="space-y-5">
-          <p className="text-[0.70rem] lg:text-xs tracking-[0.25em] uppercase text-white/70">
-            Monitoreo GPS Vehicular
-          </p>
+    <section id="hero" className="pt-24 pb-10 bg-transparent">
+      <div className="max-w-[1280px] mx-auto px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-3xl border border-black/10 shadow-[0_22px_70px_rgba(0,0,0,0.10)] bg-white/95 backdrop-blur">
+          {/* Left (sobrio: blanco + texto navy) */}
+          <div className="relative p-8 md:p-12">
+            {/* acento sutil */}
+            <div className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#1f2f52]/5 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-[#f4be32]/12 blur-3xl" />
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl leading-tight text-white drop-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
-            Control total de tus{" "}
-            <span className="text-[#24C6FF]">vehículos en tiempo real</span>
-          </h1>
+            {/* badge */}
+            <div className="relative inline-flex items-center gap-2 rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2">
+              <span className="w-2 h-2 rounded-full bg-[#f4be32]" />
+              <span className="text-xs md:text-[13px] font-semibold tracking-wide text-[#1f2f52]">
+                GPS Autotracker · Beneficiarios SMU
+              </span>
+            </div>
 
-          <p className="text-xs sm:text-sm lg:text-base text-white/80 max-w-lg text-justify">
-            JD Geotrack instala y configura sistemas GPS vehiculares para flotas y vehículos particulares.
-            Visualiza recorridos, alertas y reportes en una plataforma moderna, segura y pensada para la gestión operativa.
-          </p>
+            <h1 className="relative mt-6 text-3xl md:text-5xl font-light tracking-wide leading-tight uppercase text-[#1f2f52]">
+              CON GPS <span className="font-semibold">AUTOTRACKER</span>
+            </h1>
 
-          {/* Botones */}
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-2">
-            {/* Botón: ir al formulario de contacto */}
-            <Link
-              to="contact"
-              smooth={true}
-              duration={500}
-              offset={-80} // compensa el navbar fijo
-              className="
-                inline-flex items-center justify-center
-                px-5 sm:px-6 py-2.5
-                rounded-full
-                bg-[#24C6FF]
-                text-[#001624]
-                text-xs sm:text-sm
-                tracking-[0.18em]
-                uppercase font-light
-                shadow-[0_0_18px_rgba(36,198,255,0.45)]
-                hover:bg-white
-                transition-all duration-300
-                cursor-pointer
-              "
-            >
-              Solicitar cotización
-            </Link>
+            <p className="relative mt-4 text-lg md:text-2xl font-light text-[#1f2f52]/90">
+              Tu Vehículo Protegido <span className="text-[#1f2f52]/40">–</span>{" "}
+              <span className="font-medium">Atención Personalizada</span>
+            </p>
 
-            {/* Botón: ir a servicios */}
-            <Link
-              to="services"
-              smooth={true}
-              duration={500}
-              offset={-80}
-              className="
-                inline-flex items-center justify-center
-                px-5 sm:px-6 py-2.5
-                rounded-full
-                border border-white/40
-                text-xs sm:text-sm
-                tracking-[0.18em]
-                uppercase font-light
-                text-white
-                hover:bg-white/10 hover:border-white/80
-                transition-all duration-300
-                cursor-pointer
-              "
-            >
-              Ver servicios
-            </Link>
-          </div>
-        </div>
+            <p className="relative mt-5 max-w-xl text-sm md:text-base text-slate-600 leading-relaxed">
+              Monitorea, recibe alertas y actúa rápido ante situaciones de riesgo. Tecnología y soporte para que
+              tú manejes la tranquilidad (y no al revés).
+            </p>
 
-        {/* Carrusel */}
-        <div className="relative flex flex-col items-center lg:items-end">
-          <div
-            className="
-              relative
-              w-full
-              max-w-[600px]
-              aspect-square
-              mx-auto lg:mx-0
-              rounded-[2.2rem]
-              overflow-hidden
-              border border-white/10
-              shadow-[0_25px_55px_rgba(0,0,0,0.55)]
-              bg-[#00334F]
-            "
-          >
-            {SLIDES.map((slide, index) => (
-              <img
-                key={slide.src}
-                src={slide.src}
-                alt={slide.title}
-                className={`
-                  absolute inset-0
-                  w-full h-full
-                  object-cover
-                  transition-opacity duration-700 ease-out
-                  ${index === current ? "opacity-100" : "opacity-0"}
-                `}
-              />
-            ))}
+            <div className="relative mt-8 flex flex-wrap gap-3">
+              <a
+                href="#tienda"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full bg-[#f4be32]
+                  px-7 py-3.5 text-sm font-extrabold text-black
+                  shadow-[0_18px_35px_rgba(244,190,50,0.22)]
+                  hover:bg-[#e8b225] transition
+                  active:scale-[0.99]
+                "
+              >
+                ACCESO A LA TIENDA
+              </a>
 
-            {/* Overlay suave */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/60 pointer-events-none" />
+              <a
+                href="#contact"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full bg-white
+                  px-7 py-3.5 text-sm font-semibold text-[#1f2f52]
+                  border border-[#1f2f52]/20
+                  hover:bg-[#1f2f52]/5 transition
+                "
+              >
+                CONTACTO
+              </a>
+            </div>
 
-            {/* Texto sobre la imagen */}
-            <div className="absolute left-4 bottom-4 sm:left-5 sm:bottom-5 max-w-[78%]">
-              <div className="bg-black/55 backdrop-blur-sm rounded-xl px-3 sm:px-4 py-1.5 sm:py-2 inline-block">
-                <h2 className="text-[0.72rem] sm:text-[0.80rem] lg:text-sm font-semibold text-white">
-                  {active.title}
-                </h2>
-                <p className="text-[0.60rem] sm:text-[0.68rem] lg:text-[0.72rem] text-white/80 leading-snug">
-                  {active.subtitle}
-                </p>
-              </div>
+            {/* mini “trust” (sobrio) */}
+            <div className="relative mt-8 flex flex-wrap gap-3">
+              <Pill>Soporte 24/7</Pill>
+              <Pill>Suscripción anual</Pill>
+              <Pill>Respuesta rápida</Pill>
             </div>
           </div>
 
-          {/* Enunciado bajo el carrusel, centrado respecto al carrusel */}
-          <div className="mt-4 w-full max-w-[600px] mx-auto lg:mx-0">
-            <p className="text-[0.70rem] sm:text-[0.75rem] text-white/70 text-center">
-              Imágenes referenciales.
-            </p>
+          {/* Right image (carrusel automático .webp) */}
+          <div className="relative min-h-[340px] lg:min-h-full bg-[#f6f6f6]">
+            {current ? (
+              <>
+                <img
+                  key={current}
+                  src={current}
+                  alt="Imagen hero"
+                  className="absolute inset-0 w-full h-full object-cover opacity-0 animate-[fadeIn_900ms_ease-out_forwards]"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
+              </>
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
+                <div className="max-w-md">
+                  <p className="text-sm font-bold text-[#1f2f52]">
+                    No se encontraron imágenes .webp
+                  </p>
+                  <p className="mt-2 text-sm text-slate-600">
+                    Revisa que existan archivos en <code className="font-mono">public/images</code> y que el array{" "}
+                    <code className="font-mono">WEBP_IMAGES</code> tenga rutas correctas{" "}
+                    <code className="font-mono">/images/...</code>.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            <style>{`
+              @keyframes fadeIn {
+                from { opacity: 0; transform: scale(1.01); }
+                to   { opacity: 1; transform: scale(1); }
+              }
+            `}</style>
           </div>
+        </div>
+
+        {/* Feature strip */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+          {FEATURES.map(({ icon: Icon, title }) => (
+            <div
+              key={title}
+              className="
+                group bg-white/90 backdrop-blur rounded-2xl border border-black/10
+                p-4 flex items-center gap-3
+                shadow-sm
+                hover:bg-white hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]
+                transition
+              "
+            >
+              <div
+                className="
+                  w-11 h-11 rounded-xl bg-white border border-black/10
+                  flex items-center justify-center text-[#1f2f52]
+                  group-hover:scale-[1.03] transition
+                "
+              >
+                <Icon size={18} />
+              </div>
+
+              <p className="text-sm font-extrabold text-[#1f2f52] leading-tight">
+                {title}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>
+  );
+}
+
+function Pill({ children }) {
+  return (
+    <span className="inline-flex items-center rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2 text-xs font-semibold text-[#1f2f52]/85">
+      {children}
+    </span>
   );
 }

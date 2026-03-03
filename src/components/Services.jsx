@@ -1,186 +1,167 @@
-import { LuCar, LuRoute, LuShieldCheck } from "react-icons/lu";
+import {
+  Smartphone,
+  Monitor,
+  Timer,
+  Repeat,
+  Power,
+  PlayCircle,
+  ShieldCheck,
+} from "lucide-react";
+
+const CARDS = [
+  {
+    icon: Smartphone,
+    title: "Localización por celular (SMS o llamada)",
+    bullets: [
+      "Envías un SMS o llamas a la unidad GPS instalada.",
+      "Respuesta inmediata con: coordenadas, velocidad, fecha/hora y enlace Google Maps.",
+    ],
+  },
+  {
+    icon: Monitor,
+    title: "Localización por computador o tablet",
+    bullets: [
+      "Abres Google Maps (u otro navegador).",
+      "Pegas las coordenadas recibidas y ves el mapa + ubicación en tiempo real.",
+    ],
+  },
+  {
+    icon: Timer,
+    title: "Localización automática programada",
+    bullets: [
+      "Se activa con un SMS.",
+      "Envía ubicación cada 60 segundos, solo 5 veces (1 ciclo).",
+    ],
+  },
+  {
+    icon: Repeat,
+    title: "Localización automática continua",
+    bullets: [
+      "Defines el tiempo de rastreo con un SMS.",
+      "Rastreo configurable en: segundos, minutos, horas o días.",
+    ],
+  },
+  {
+    icon: Power,
+    title: "Inmovilizar vehículo (corta corriente)",
+    bullets: [
+      "Ante intento de robo, envías un SMS al equipo GPS.",
+      "El sistema detiene el motor y confirma: 'Stop Engine' + datos + enlace Maps.",
+    ],
+  },
+  {
+    icon: PlayCircle,
+    title: "Reactivar el vehículo (movilizar)",
+    bullets: [
+      "El vehículo queda inmovilizado hasta recibir la orden del usuario.",
+      "Confirmación: 'Resume (Motor activado)'.",
+    ],
+  },
+];
 
 export default function Services() {
   return (
-    <section
-      id="services"
-      className="
-        w-full
-        px-4 lg:px-8
-        pt-28 pb-20 mb-24
-      "
-    >
-      <div className="max-w-[1400px] mx-auto">
-        {/* Título sección */}
-        <div className="text-center mb-10">
-          <p className="text-[0.70rem] lg:text-xs tracking-[0.25em] uppercase text-white/60">
-            Lo que hacemos
-          </p>
-          <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-semibold text-white">
-            Nuestros servicios
-          </h2>
-          <p className="mt-3 text-xs sm:text-sm text-white/70 max-w-xl mx-auto">
-            Soluciones de geolocalización diseñadas para vehículos particulares,
-            pequeñas empresas y grandes flotas que necesitan control real de su operación.
-          </p>
-        </div>
+    <section id="services" className="py-16 bg-transparent">
+      <div className="max-w-[1280px] mx-auto px-4">
+        {/* Encabezado sobrio (coherente con Hero) */}
+        <div className="relative rounded-3xl border border-black/10 bg-white/95 backdrop-blur shadow-[0_22px_70px_rgba(0,0,0,0.08)] overflow-hidden">
+          {/* acento sutil */}
+          <div className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#1f2f52]/5 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-[#f4be32]/12 blur-3xl" />
 
-        {/* Tarjetas de servicios */}
-        <div
-          className="
-            grid gap-5 sm:gap-6
-            md:grid-cols-3
-          "
-        >
-          {/* Servicio 1 */}
-          <article
-            className="
-              group relative overflow-hidden
-              rounded-2xl
-              bg-slate-900/85
-              border border-slate-700
-              p-6 sm:p-7
-              shadow-[0_18px_40px_rgba(0,0,0,0.65)]
-              transition-all duration-300
-              hover:-translate-y-1.5
-              hover:shadow-[0_22px_55px_rgba(0,0,0,0.9)]
-              hover:border-[#24C6FF]/70
-            "
-          >
-            {/* brillo hover */}
-            <div
-              className="
-                pointer-events-none absolute inset-0
-                opacity-0 group-hover:opacity-100
-                transition-opacity duration-300
-                bg-gradient-to-b from-[#24C6FF]/12 via-transparent to-[#24C6FF]/10
-              "
-            />
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div
+          <div className="relative p-8 md:p-10">
+            <div className="inline-flex items-center gap-2 rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2">
+              <ShieldCheck className="text-[#1f2f52]" size={16} />
+              <span className="text-xs md:text-[13px] font-semibold tracking-wide text-[#1f2f52]">
+                Servicios y funcionamiento
+              </span>
+            </div>
+
+            <h2 className="mt-5 text-2xl md:text-3xl font-extrabold text-[#1f2f52]">
+              Seguridad automotriz con tecnología satelital inteligente
+            </h2>
+
+            <p className="mt-3 text-[#334155] leading-relaxed max-w-4xl">
+              <span className="font-semibold text-[#1f2f52]">Localiza Tu Auto</span> es una alianza de profesionales en tecnología
+              satelital y electrónica automotriz, con experiencia en el mercado GPS. Ofrecemos una solución inteligente y
+              preventiva para proteger automóviles, camiones y flotas, combinando monitoreo y respuesta ante situaciones de
+              riesgo. Nuestra visión es liderar la seguridad automotriz con tecnología integrada y un servicio confiable, respaldado
+              por atención personalizada, capacitación y postventa de alto nivel.
+            </p>
+
+            {/* Cards */}
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {CARDS.map(({ icon: Icon, title, bullets }) => (
+                <article
+                  key={title}
+                  className="
+                    group rounded-2xl border border-black/10
+                    bg-white/90 backdrop-blur
+                    p-5 shadow-sm
+                    hover:bg-white hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)]
+                    transition
+                  "
+                >
+                  <div className="flex items-start gap-3">
+                    <div
+                      className="
+                        w-11 h-11 rounded-xl bg-white border border-black/10
+                        flex items-center justify-center text-[#1f2f52]
+                        group-hover:scale-[1.03] transition
+                      "
+                    >
+                      <Icon size={18} />
+                    </div>
+
+                    <div className="min-w-0">
+                      <h3 className="text-sm font-extrabold text-[#1f2f52] leading-snug">
+                        {title}
+                      </h3>
+
+                      <ul className="mt-2 space-y-1.5 text-sm text-slate-600 leading-relaxed">
+                        {bullets.map((b) => (
+                          <li key={b} className="flex gap-2">
+                            <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[#f4be32] flex-shrink-0" />
+                            <span>{b}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+
+            {/* CTA discreto (opcional, sobrio) */}
+            <div className="mt-8 flex flex-wrap gap-3">
+              <a
+                href="#contact"
                 className="
-                  flex items-center justify-center
-                  w-14 h-14 sm:w-16 sm:h-16
-                  rounded-full
-                  bg-slate-800
-                  border border-[#24C6FF]/60
-                  text-[#24C6FF]
-                  mb-4
-                  shadow-[0_0_18px_rgba(36,198,255,0.4)]
+                  inline-flex items-center justify-center
+                  rounded-full bg-white
+                  px-7 py-3.5 text-sm font-semibold text-[#1f2f52]
+                  border border-[#1f2f52]/20
+                  hover:bg-[#1f2f52]/5 transition
                 "
               >
-                <LuCar className="text-2xl sm:text-3xl" />
-              </div>
+                Solicitar información
+              </a>
 
-              <h3 className="text-sm sm:text-base font-semibold text-white mb-2">
-                Vehículos particulares
-              </h3>
-              <p className="text-[0.78rem] sm:text-[0.85rem] text-white/75 leading-relaxed">
-                Instalación discreta de GPS para autos y motos. Seguimiento en
-                tiempo real, historial de rutas y alertas ante movimientos no
-                autorizados.
-              </p>
-            </div>
-          </article>
-
-          {/* Servicio 2 */}
-          <article
-            className="
-              group relative overflow-hidden
-              rounded-2xl
-              bg-slate-900/85
-              border border-slate-700
-              p-6 sm:p-7
-              shadow-[0_18px_40px_rgba(0,0,0,0.65)]
-              transition-all duration-300
-              hover:-translate-y-1.5
-              hover:shadow-[0_22px_55px_rgba(0,0,0,0.9)]
-              hover:border-[#24C6FF]/70
-            "
-          >
-            <div
-              className="
-                pointer-events-none absolute inset-0
-                opacity-0 group-hover:opacity-100
-                transition-opacity duration-300
-                bg-gradient-to-b from-[#24C6FF]/12 via-transparent to-[#24C6FF]/10
-              "
-            />
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div
+              <a
+                href="#tienda"
                 className="
-                  flex items-center justify-center
-                  w-14 h-14 sm:w-16 sm:h-16
-                  rounded-full
-                  bg-slate-800
-                  border border-[#24C6FF]/60
-                  text-[#24C6FF]
-                  mb-4
-                  shadow-[0_0_18px_rgba(36,198,255,0.4)]
+                  inline-flex items-center justify-center
+                  rounded-full bg-[#f4be32]
+                  px-7 py-3.5 text-sm font-extrabold text-black
+                  shadow-[0_18px_35px_rgba(244,190,50,0.22)]
+                  hover:bg-[#e8b225] transition
+                  active:scale-[0.99]
                 "
               >
-                <LuRoute className="text-2xl sm:text-3xl" />
-              </div>
-
-              <h3 className="text-sm sm:text-base font-semibold text-white mb-2">
-                Gestión de flotas
-              </h3>
-              <p className="text-[0.78rem] sm:text-[0.85rem] text-white/75 leading-relaxed">
-                Panel centralizado para camiones, vans y vehículos de servicio.
-                Rutas, detenciones, tiempos en terreno y reportes exportables
-                para optimizar tu operación diaria.
-              </p>
+                Ver planes en la tienda
+              </a>
             </div>
-          </article>
-
-          {/* Servicio 3 */}
-          <article
-            className="
-              group relative overflow-hidden
-              rounded-2xl
-              bg-slate-900/85
-              border border-slate-700
-              p-6 sm:p-7
-              shadow-[0_18px_40px_rgba(0,0,0,0.65)]
-              transition-all duration-300
-              hover:-translate-y-1.5
-              hover:shadow-[0_22px_55px_rgba(0,0,0,0.9)]
-              hover:border-[#24C6FF]/70
-            "
-          >
-            <div
-              className="
-                pointer-events-none absolute inset-0
-                opacity-0 group-hover:opacity-100
-                transition-opacity duration-300
-                bg-gradient-to-b from-[#24C6FF]/12 via-transparent to-[#24C6FF]/10
-              "
-            />
-            <div className="relative z-10 flex flex-col items-center text-center">
-              <div
-                className="
-                  flex items-center justify-center
-                  w-14 h-14 sm:w-16 sm:h-16
-                  rounded-full
-                  bg-slate-800
-                  border border-[#24C6FF]/60
-                  text-[#24C6FF]
-                  mb-4
-                  shadow-[0_0_18px_rgba(36,198,255,0.4)]
-                "
-              >
-                <LuShieldCheck className="text-2xl sm:text-3xl" />
-              </div>
-
-              <h3 className="text-sm sm:text-base font-semibold text-white mb-2">
-                Soporte y continuidad
-              </h3>
-              <p className="text-[0.78rem] sm:text-[0.85rem] text-white/75 leading-relaxed">
-                Mantención de equipos, diagnóstico remoto y apoyo en terreno.
-                Nos aseguramos de que tu sistema GPS se mantenga operativo y confiable.
-              </p>
-            </div>
-          </article>
+          </div>
         </div>
       </div>
     </section>

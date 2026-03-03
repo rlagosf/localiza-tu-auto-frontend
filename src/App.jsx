@@ -4,19 +4,20 @@ import Services from "./components/Services";
 import About from "./components/About";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import Sponsors from "./components/Sponsors";
 
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#00334F] via-[#005887] to-[#24C6FF] text-white">
+    <div className="min-h-screen relative overflow-x-hidden">
+      {/* Fondo global */}
+      <div className="fixed inset-0 -z-10 bg-gradient-to-b from-[#00334F] via-[#005887] to-[#24C6FF]" />
+
+      {/* Contenido */}
       <Navbar />
       <Hero />
-      <Services />
       <About />
+      <Services />
       <Contact />
-      <Sponsors />
       <Footer />
-      {/* Luego vendrán Services, About, Contact, etc. */}
     </div>
   );
 }
