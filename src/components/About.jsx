@@ -1,4 +1,6 @@
 export default function About() {
+  const BASE = import.meta.env.BASE_URL; // e.g. "/localiza-tu-auto-frontend/"
+
   return (
     <section id="about" className="py-16 bg-transparent">
       <div className="max-w-[1280px] mx-auto px-4">
@@ -25,7 +27,7 @@ export default function About() {
                 title="Download on the App Store"
               >
                 <img
-                  src="/images/appstore-badge.png"
+                  src={`${BASE}images/appstore-badge.png`}
                   alt="Download on the App Store"
                   className="h-10 w-auto"
                   draggable={false}
@@ -40,7 +42,7 @@ export default function About() {
                 title="Get it on Google Play"
               >
                 <img
-                  src="/images/googleplay-badge.png"
+                  src={`${BASE}images/googleplay-badge.png`}
                   alt="Get it on Google Play"
                   className="h-10 w-auto"
                   draggable={false}
@@ -79,7 +81,7 @@ export default function About() {
               ACCESO PLATAFORMA
             </a>
 
-            {/* Pills (dentro de la tarjeta acceso plataforma) */}
+            {/* Pills */}
             <div className="relative mt-8 flex flex-wrap gap-3">
               <Pill>Soporte 24/7</Pill>
               <Pill>Suscripción anual</Pill>

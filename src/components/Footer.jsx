@@ -1,6 +1,8 @@
 import { Link } from "react-scroll";
 
 export default function Footer() {
+  const BASE = import.meta.env.BASE_URL; // "/localiza-tu-auto-frontend/"
+
   const navItems = [
     { to: "hero", label: "Inicio" },
     { to: "about", label: "Nosotros" },
@@ -15,12 +17,15 @@ export default function Footer() {
         <div className="h-px bg-gradient-to-r from-transparent via-black/10 to-transparent" />
 
         <div className="pt-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-          {/* Branding */}
+          {/* Branding (logo) */}
           <div className="min-w-0">
-            <div className="text-[#1f2f52] font-extrabold text-lg md:text-xl">
-              GPS Autotracker
-            </div>
-            <div className="text-[#1f2f52]/70 text-sm mt-1">
+            <img
+              src={`${BASE}images/logo-auto-track.png`}
+              alt="AutoTracker"
+              className="h-10 md:h-12 w-auto select-none"
+              draggable={false}
+            />
+            <div className="text-[#1f2f52]/70 text-sm mt-2">
               Seguridad automotriz · Monitoreo satelital · Soporte 24/7
             </div>
           </div>

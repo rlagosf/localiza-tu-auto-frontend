@@ -3,6 +3,8 @@ import { Link } from "react-scroll";
 import { Menu, X } from "lucide-react";
 
 export default function Navbar() {
+  const BASE = import.meta.env.BASE_URL; // "/localiza-tu-auto-frontend/"
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -33,7 +35,6 @@ export default function Navbar() {
         <div
           className={[
             "rounded-2xl backdrop-blur-md border transition-all duration-300",
-            // más “glass” para que el degradado de fondo se note
             "bg-white/80",
             scrolled
               ? "shadow-[0_18px_45px_rgba(0,0,0,0.18)] border-black/10"
@@ -44,7 +45,7 @@ export default function Navbar() {
             {/* Logo */}
             <div className="flex items-center gap-3 min-w-0">
               <img
-                src="/images/logo-auto-track.png"
+                src={`${BASE}images/logo-auto-track.png`}
                 alt="AutoTracker"
                 className="h-9 md:h-11 w-auto select-none"
                 draggable={false}

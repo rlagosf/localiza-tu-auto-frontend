@@ -1,18 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { MapPin, Bell, ShieldCheck, Route } from "lucide-react";
 
-/**
- * ✅ Opción 1 (public): array manual de imágenes .webp
- * Las rutas deben ser /images/... (sin /public).
- */
-const WEBP_IMAGES = [
-  "/images/alerta-instantanea.webp",
-  "/images/confianza-auto.webp",
-  "/images/historial-rutas.webp",
-  "/images/inmovilizador-motor.webp",
-  "/images/localizacion-tiempo-real.webp",
-];
-
 const FEATURES = [
   { icon: MapPin, title: "Localización en tiempo real" },
   { icon: Route, title: "Historial de rutas" },
@@ -21,7 +9,23 @@ const FEATURES = [
 ];
 
 export default function Hero() {
-  const images = useMemo(() => WEBP_IMAGES, []);
+  const BASE = import.meta.env.BASE_URL; // "/localiza-tu-auto-frontend/"
+
+  /**
+   * ✅ Opción 1 (public): array manual de imágenes .webp
+   * En GitHub Pages deben respetar BASE_URL.
+   */
+  const images = useMemo(
+    () => [
+      `${BASE}images/alerta-instantanea.webp`,
+      `${BASE}images/confianza-auto.webp`,
+      `${BASE}images/historial-rutas.webp`,
+      `${BASE}images/inmovilizador-motor.webp`,
+      `${BASE}images/localizacion-tiempo-real.webp`,
+    ],
+    [BASE]
+  );
+
   const [idx, setIdx] = useState(0);
 
   const current = images?.length
@@ -41,7 +45,7 @@ export default function Hero() {
 
     const interval = setInterval(() => {
       setIdx((p) => (p + 1) % images.length);
-    }, 4500); // ajusta velocidad aquí
+    }, 4500);
 
     return () => clearInterval(interval);
   }, [images]);
@@ -50,13 +54,11 @@ export default function Hero() {
     <section id="hero" className="pt-24 pb-10 bg-transparent">
       <div className="max-w-[1280px] mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 overflow-hidden rounded-3xl border border-black/10 shadow-[0_22px_70px_rgba(0,0,0,0.10)] bg-white/95 backdrop-blur">
-          {/* Left (sobrio: blanco + texto navy) */}
+          {/* Left */}
           <div className="relative p-8 md:p-12">
-            {/* acento sutil */}
             <div className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#1f2f52]/5 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-[#f4be32]/12 blur-3xl" />
 
-            {/* badge */}
             <div className="relative inline-flex items-center gap-2 rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2">
               <span className="w-2 h-2 rounded-full bg-[#f4be32]" />
               <span className="text-xs md:text-[13px] font-semibold tracking-wide text-[#1f2f52]">
@@ -107,7 +109,6 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* mini “trust” (sobrio) */}
             <div className="relative mt-8 flex flex-wrap gap-3">
               <Pill>Soporte 24/7</Pill>
               <Pill>Suscripción anual</Pill>
@@ -115,7 +116,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right image (carrusel automático .webp) */}
+          {/* Right image */}
           <div className="relative min-h-[340px] lg:min-h-full bg-[#f6f6f6]">
             {current ? (
               <>
@@ -135,9 +136,7 @@ export default function Hero() {
                     No se encontraron imágenes .webp
                   </p>
                   <p className="mt-2 text-sm text-slate-600">
-                    Revisa que existan archivos en <code className="font-mono">public/images</code> y que el array{" "}
-                    <code className="font-mono">WEBP_IMAGES</code> tenga rutas correctas{" "}
-                    <code className="font-mono">/images/...</code>.
+                    Revisa que existan archivos en <code className="font-mono">public/images</code>.
                   </p>
                 </div>
               </div>
