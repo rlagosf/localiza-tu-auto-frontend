@@ -3,5 +3,5 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/", // ✅ producción en raíz
+  base: "/localiza-tu-auto-frontend/", // ✅ producción en raíz
 });
