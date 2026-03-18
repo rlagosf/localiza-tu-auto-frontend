@@ -12,7 +12,6 @@ export default function Navbar() {
     () => [
       { to: "hero", label: "Inicio" },
       { to: "about", label: "Nosotros" },
-      { to: "services", label: "Servicios" },
       { to: "contact", label: "Contacto" },
     ],
     []

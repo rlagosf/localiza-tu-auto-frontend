@@ -3,7 +3,7 @@ import { MapPin, Bell, ShieldCheck, Route } from "lucide-react";
 
 const FEATURES = [
   { icon: MapPin, title: "Localización en tiempo real" },
-  { icon: Route, title: "Historial de rutas" },
+  { icon: Route, title: "Enlace a la policía" },
   { icon: Bell, title: "Alertas instantáneas" },
   { icon: ShieldCheck, title: "Inmovilizador de motor" },
 ];
@@ -11,30 +11,57 @@ const FEATURES = [
 export default function Hero() {
   const BASE = import.meta.env.BASE_URL; // "/localiza-tu-auto-frontend/"
 
-  /**
-   * ✅ Opción 1 (public): array manual de imágenes .webp
-   * En GitHub Pages deben respetar BASE_URL.
-   */
   const images = useMemo(
     () => [
       `${BASE}images/alerta-instantanea.webp`,
       `${BASE}images/confianza-auto.webp`,
-      `${BASE}images/historial-rutas.webp`,
-      `${BASE}images/inmovilizador-motor.webp`,
-      `${BASE}images/localizacion-tiempo-real.webp`,
+      `${BASE}images/auto-secure.webp`,
+      `${BASE}images/family-secure.webp`,
     ],
     [BASE]
   );
 
+  const [validImages, setValidImages] = useState([]);
   const [idx, setIdx] = useState(0);
 
-  const current = images?.length
-    ? images[Math.max(0, Math.min(idx, images.length - 1))]
+  // Validar qué imágenes existen realmente
+  useEffect(() => {
+    let mounted = true;
+
+    const checkImages = async () => {
+      const results = await Promise.all(
+        images.map(
+          (src) =>
+            new Promise((resolve) => {
+              const img = new Image();
+              img.src = src;
+              img.onload = () => resolve(src);
+              img.onerror = () => resolve(null);
+            })
+        )
+      );
+
+      if (mounted) {
+        const filtered = results.filter(Boolean);
+        setValidImages(filtered);
+        setIdx(0);
+      }
+    };
+
+    checkImages();
+
+    return () => {
+      mounted = false;
+    };
+  }, [images]);
+
+  const current = validImages?.length
+    ? validImages[Math.max(0, Math.min(idx, validImages.length - 1))]
     : null;
 
   // Carrusel automático
   useEffect(() => {
-    if (!images || images.length <= 1) return;
+    if (!validImages || validImages.length <= 1) return;
 
     const reduceMotion =
       typeof window !== "undefined" &&
@@ -44,11 +71,11 @@ export default function Hero() {
     if (reduceMotion) return;
 
     const interval = setInterval(() => {
-      setIdx((p) => (p + 1) % images.length);
+      setIdx((p) => (p + 1) % validImages.length);
     }, 4500);
 
     return () => clearInterval(interval);
-  }, [images]);
+  }, [validImages]);
 
   return (
     <section id="hero" className="pt-24 pb-10 bg-transparent">
@@ -58,13 +85,6 @@ export default function Hero() {
           <div className="relative p-8 md:p-12">
             <div className="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-[#1f2f52]/5 blur-3xl" />
             <div className="pointer-events-none absolute -bottom-24 -right-24 w-80 h-80 rounded-full bg-[#f4be32]/12 blur-3xl" />
-
-            <div className="relative inline-flex items-center gap-2 rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2">
-              <span className="w-2 h-2 rounded-full bg-[#f4be32]" />
-              <span className="text-xs md:text-[13px] font-semibold tracking-wide text-[#1f2f52]">
-                GPS Autotracker · Beneficiarios SMU
-              </span>
-            </div>
 
             <h1 className="relative mt-6 text-3xl md:text-5xl font-light tracking-wide leading-tight uppercase text-[#1f2f52]">
               CON GPS <span className="font-semibold">AUTOTRACKER</span>
@@ -76,20 +96,20 @@ export default function Hero() {
             </p>
 
             <p className="relative mt-5 max-w-xl text-sm md:text-base text-slate-600 leading-relaxed">
-              Monitorea, recibe alertas y actúa rápido ante situaciones de riesgo. Tecnología y soporte para que
-              tú manejes la tranquilidad (y no al revés).
+              Localiza tu auto, ante situaciones de riesgo.
             </p>
 
-            <div className="relative mt-8 flex flex-wrap gap-3">
+            <div className="relative mt-8 flex flex-wrap lg:flex-nowrap items-center gap-2">
               <a
                 href="#tienda"
                 className="
                   inline-flex items-center justify-center
                   rounded-full bg-[#f4be32]
-                  px-7 py-3.5 text-sm font-extrabold text-black
+                  px-5 py-3 text-xs md:text-sm font-extrabold text-black
                   shadow-[0_18px_35px_rgba(244,190,50,0.22)]
                   hover:bg-[#e8b225] transition
                   active:scale-[0.99]
+                  whitespace-nowrap
                 "
               >
                 ACCESO A LA TIENDA
@@ -100,19 +120,29 @@ export default function Hero() {
                 className="
                   inline-flex items-center justify-center
                   rounded-full bg-white
-                  px-7 py-3.5 text-sm font-semibold text-[#1f2f52]
+                  px-5 py-3 text-xs md:text-sm font-semibold text-[#1f2f52]
                   border border-[#1f2f52]/20
                   hover:bg-[#1f2f52]/5 transition
+                  whitespace-nowrap
                 "
               >
                 CONTACTO
               </a>
-            </div>
 
-            <div className="relative mt-8 flex flex-wrap gap-3">
-              <Pill>Soporte 24/7</Pill>
-              <Pill>Suscripción anual</Pill>
-              <Pill>Respuesta rápida</Pill>
+              <a
+                href="#plataforma"
+                className="
+                  inline-flex items-center justify-center
+                  rounded-full bg-[#f4be32]
+                  px-5 py-3 text-xs md:text-sm font-extrabold text-black
+                  shadow-[0_18px_35px_rgba(244,190,50,0.22)]
+                  hover:bg-[#e8b225] transition
+                  active:scale-[0.99]
+                  whitespace-nowrap
+                "
+              >
+                ACCESO A LA PLATAFORMA
+              </a>
             </div>
           </div>
 
@@ -125,6 +155,7 @@ export default function Hero() {
                   src={current}
                   alt="Imagen hero"
                   className="absolute inset-0 w-full h-full object-cover opacity-0 animate-[fadeIn_900ms_ease-out_forwards]"
+                  draggable={false}
                 />
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-black/5 to-transparent" />
@@ -133,10 +164,11 @@ export default function Hero() {
               <div className="absolute inset-0 flex items-center justify-center p-8 text-center">
                 <div className="max-w-md">
                   <p className="text-sm font-bold text-[#1f2f52]">
-                    No se encontraron imágenes .webp
+                    No se encontraron imágenes válidas
                   </p>
                   <p className="mt-2 text-sm text-slate-600">
-                    Revisa que existan archivos en <code className="font-mono">public/images</code>.
+                    Revisa que existan archivos válidos en{" "}
+                    <code className="font-mono">public/images</code>.
                   </p>
                 </div>
               </div>
@@ -182,13 +214,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  );
-}
-
-function Pill({ children }) {
-  return (
-    <span className="inline-flex items-center rounded-full bg-[#1f2f52]/5 border border-[#1f2f52]/10 px-4 py-2 text-xs font-semibold text-[#1f2f52]/85">
-      {children}
-    </span>
   );
 }

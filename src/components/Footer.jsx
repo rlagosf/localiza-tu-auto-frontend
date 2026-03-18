@@ -6,7 +6,6 @@ export default function Footer() {
   const navItems = [
     { to: "hero", label: "Inicio" },
     { to: "about", label: "Nosotros" },
-    { to: "services", label: "Servicios" },
     { to: "contact", label: "Contacto" },
   ];
 
@@ -18,21 +17,21 @@ export default function Footer() {
 
         <div className="pt-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
           {/* Branding (logo) */}
-          <div className="min-w-0">
+          <div className="min-w-0 max-w-full">
             <img
               src={`${BASE}images/logo-auto-track.png`}
               alt="AutoTracker"
               className="h-10 md:h-12 w-auto select-none"
               draggable={false}
             />
-            <div className="text-[#1f2f52]/70 text-sm mt-2">
+            <div className="text-[#1f2f52]/70 text-sm mt-2 leading-relaxed">
               Seguridad automotriz · Monitoreo satelital · Soporte 24/7
             </div>
           </div>
 
-          {/* Navegación (estilo navbar, pero libre) */}
+          {/* Navegación */}
           <nav className="w-full lg:w-auto">
-            <ul className="flex flex-wrap items-center gap-2">
+            <ul className="flex flex-wrap items-center lg:justify-end gap-2 md:gap-3">
               {navItems.map((it) => (
                 <li key={it.to}>
                   <Link
@@ -42,15 +41,19 @@ export default function Footer() {
                     offset={-90}
                     spy
                     className="
+                      inline-flex items-center justify-center
                       cursor-pointer select-none
-                      px-5 py-2.5 rounded-xl
+                      px-4 md:px-5 py-2.5 rounded-xl
                       text-[13px] md:text-sm font-semibold
-                      text-[#1f1f1f]
-                      border border-black/10 bg-[#f6f6f6]
+                      text-[#1f2f52]
+                      border border-[#1f2f52]/10
+                      bg-[#1f2f52]/5
                       transition-all duration-200
                       hover:bg-white hover:text-[#22365a]
+                      hover:border-[#1f2f52]/20
                       hover:shadow-sm
                       active:scale-[0.98]
+                      whitespace-nowrap
                     "
                     activeClass="!bg-white !text-[#22365a] shadow-[0_10px_25px_rgba(0,0,0,0.10)]"
                   >
@@ -64,7 +67,7 @@ export default function Footer() {
 
         {/* Barra inferior */}
         <div className="mt-10 pt-6 border-t border-black/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <p className="text-xs text-[#1f2f52]/70">
+          <p className="text-xs text-[#1f2f52]/70 leading-relaxed">
             © {new Date().getFullYear()} Localiza Tu Auto · Todos los derechos reservados.
           </p>
 

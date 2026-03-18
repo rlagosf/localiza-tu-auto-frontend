@@ -34,7 +34,7 @@ export default function Contact() {
               </h2>
 
               <p className="mt-3 text-[#334155] leading-relaxed">
-                Activa tu beneficio y accede a la plataforma de monitoreo con el plan más rentable del Club Beneficiarios.
+                Activa tu  beneficio con acceso inmediato a la plataforma de Rastreo Satelital   “Cortesía del Club de beneficiarios”
               </p>
 
               <div className="mt-6 rounded-2xl border border-black/10 bg-[#f6f6f6] p-5 shadow-sm">
@@ -92,7 +92,7 @@ export default function Contact() {
                 </div>
 
                 <p className="mt-4 text-sm text-slate-600">
-                  Contacto directo:{" "}
+                  Contacto por Whatsapp:{" "}
                   <a
                     href={waLink}
                     target="_blank"
